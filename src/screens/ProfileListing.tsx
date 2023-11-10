@@ -8,7 +8,7 @@ export const ProfileListing = () => {
 
   
     const handleAddUserProfile = () => {
-      navigate("/create")
+      navigate("/profiles/create")
     };
 
     const handleEditProfile = (profileId:string) => {
@@ -16,7 +16,7 @@ export const ProfileListing = () => {
     };
 
     const handleSubscription = (profileId:string) => {
-      navigate(`/profiles/${profileId}/manage-subscription`);
+      navigate(`/profiles/${profileId}/subscription`);
     };
 
     const populateProfiles = () => {
@@ -35,9 +35,9 @@ export const ProfileListing = () => {
   }, []);
     return (
         <div>
-          <h1>User Profiles</h1>
+          <h1>Business Profiles</h1>
           <button type="button" onClick={handleAddUserProfile}>
-              Add User Profile
+              Add Business Profile
           </button>
           <table>
             <thead>
@@ -60,8 +60,8 @@ export const ProfileListing = () => {
                   <td>{profile.id}</td>
                   <td>{profile.legalName}</td>
                   <td>{profile.companyName}</td>
-                  <td>{profile.legalAddress}</td>
-                  <td>{profile.businessAddress}</td>
+                  <td>{profile.legalAddress.line1}</td>
+                  <td>{profile.businessAddress.line1}</td>
                   <td>{profile.website}</td>
                   <td>{profile.email}</td>
                   <td>
@@ -73,7 +73,7 @@ export const ProfileListing = () => {
                   </td>
                   <td>
                     <ul>
-                      {profile.subscribedBusiness.map((id:any, index:any) => (
+                      {profile.subscribedProducts && profile.subscribedProducts.map((id:any, index:any) => (
                         <li key={index}>{id}</li>
                       ))}
                     </ul>

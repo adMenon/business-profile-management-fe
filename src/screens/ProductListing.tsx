@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export const ProductListing = () => {
+export const ProductListing = ({add}:{add:Boolean}) => {
     const [products, setProducts] = useState<any[]>();
     const [newProduct, setNewProduct] = useState<any>();
 
@@ -58,7 +58,7 @@ export const ProductListing = () => {
 
     
 
-    return (<>
+    return (<>{add &&
     <div className="add-product">
         <input
           type="text"
@@ -73,7 +73,7 @@ export const ProductListing = () => {
           onChange={(e) => setNewProduct({ ...newProduct, url: e.target.value })}
         />
         <button onClick={handleAddProduct}>Add Product</button>
-      </div>
+      </div>}
     <div className='product-list'>
         <h1>Product List</h1>
         <table>

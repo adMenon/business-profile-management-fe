@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-export const ProfileForm = () =>{
+export const EditProfileForm = () =>{
     const [userProfile, setUserProfile] = useState<any>();
     const [selectedTaxIdentifiers, setSelectedTaxIdentifiers] = useState(
         userProfile?.taxIdentifiers || []
@@ -23,14 +23,6 @@ export const ProfileForm = () =>{
   useEffect(() => {
     fetchUser();
   }, [userId]);
-
-  const handleSubmit = () => {
-    // Handle form submission (create new or update existing user profile)
-    // ...
-
-    // Redirect to the user profile list page after submission
-    navigate('/profiles');
-  }
 
   const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
@@ -78,15 +70,26 @@ export const ProfileForm = () =>{
 
   const handleSave = () => {
     console.log(userProfile)
-    // You can also add logic to send the updated data to the server here
-  };
+
+    fetch("http://127.0.0.1:8083/api/business-profile/"+userProfile.id+"/update",
+         {method:'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(userProfile)})
+        .then((response) => response.json())
+        .then((data) => {
+           console.log(data);
+           navigate("/profiles");
+        })
+        .catch((err) => {
+           console.log(err.message);
+        });
+};
   
   console.log(userProfile);
-
   return (
     userProfile && <div>
-      <div>
-      <h2>Edit User Profile</h2>
+          <div style={{'display':'flex', 'flexDirection':'column', 'justifyContent':'space-between'}}>
+      <h2>Edit Business Profile</h2>
       <form>
         <label>
           Company Name:
@@ -108,7 +111,7 @@ export const ProfileForm = () =>{
         </label>
         <label>
           Business Address:
-          <div>
+          <div style={{'display':'flex', 'flexDirection':'column', 'justifyContent':'space-between'}}>
             <input
               type="text"
               name="line1"
@@ -155,7 +158,7 @@ export const ProfileForm = () =>{
         </label>
         <label>
           Legal Address:
-          <div>
+          <div style={{'display':'flex', 'flexDirection':'column', 'justifyContent':'space-between'}}>
             <input
               type="text"
               name="line1"
@@ -233,11 +236,11 @@ export const ProfileForm = () =>{
             <label>
               <input
                 type="checkbox"
-                name="SSN"
-                checked={selectedTaxIdentifiers.includes('SSN')}
-                onChange={() => handleTaxIdentifierChange('SSN')}
+                name="PAN"
+                checked={selectedTaxIdentifiers.includes('PAN')}
+                onChange={() => handleTaxIdentifierChange('PAN')}
               />
-              SSN
+              PAN
             </label>
             </div>
         </label>
